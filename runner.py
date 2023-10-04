@@ -68,7 +68,9 @@ class Runner:
                     self.agents[0].learn(transitions, other_agents)
 
             if time_step > 0 and time_step % self.args.evaluate_rate == 0:
-                returns.append(self.evaluate())
+                return_for_this_round=self.evaluate()
+                print("Avg_return for this round is",return_for_this_round)
+                returns.append(return_for_this_round)
                 plt.figure()
                 plt.plot(range(len(returns)), returns)
                 plt.xlabel('episode * ' + str(self.args.evaluate_rate / self.episode_limit))
@@ -102,5 +104,5 @@ class Runner:
                 rewards += r[0]
                 s = s_next
             returns.append(rewards)
-            print('Returns is', rewards)
+            # print('Returns is', rewards)
         return sum(returns) / self.args.evaluate_episodes

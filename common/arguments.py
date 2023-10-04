@@ -16,7 +16,7 @@ def get_args():
     parser.add_argument("--num-adversaries", type=int, default=1, help="number of adversaries")
 
     #算法参数
-    parser.add_argument("--algorithm", type=str, default="FACMAC", help="Which MARL algorithm to choose")
+    parser.add_argument("--algorithm", type=str, default="MADDPG", help="Which MARL algorithm to choose")
     parser.add_argument("--share_param", type=bool, default=False, help="Whether to share params across agents")
     parser.add_argument("--share_agent", type=bool, default=False, help="Whether to share agents")
     parser.add_argument("--agent_type", type=str, default="mlp", help="type of the agent")
@@ -40,7 +40,7 @@ def get_args():
     parser.add_argument("--gamma", type=float, default=0.95, help="discount factor")
     parser.add_argument("--tau", type=float, default=0.001, help="parameter for updating the target network")#衡量target_network的更新幅度,越大则更倾向于改变?为什么这么做?
     parser.add_argument("--buffer-size", type=int, default=int(5e5), help="number of transitions can be stored in buffer")
-    parser.add_argument("--batch-size", type=int, default=32, help="number of episodes to optimize at the same time")
+    parser.add_argument("--batch-size", type=int, default=4096, help="number of episodes to optimize at the same time")
     parser.add_argument("--lstm", type=bool, default=False, help="enable lstm?")
     parser.add_argument("--seq-length", type=int, default=5, help="length of lstm input slice")
 
