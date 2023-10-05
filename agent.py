@@ -38,10 +38,13 @@ class Agent:
     def select_action(self, o, noise_rate, epsilon):
         device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
         if np.random.uniform() < epsilon:
+            # epsilon-greedy solution, my personal thought is that's not enough.
             u = np.random.uniform(-self.args.high_action, self.args.high_action, self.args.action_shape[self.agent_id])
 
         else:
             inputs = torch.tensor(o, dtype=torch.float32).unsqueeze(0).to(device)
+            # Do something here pls this is so ugly
+            
             if getattr(self.args, "algorithm", "FACMAC") == "FACMAC" or getattr(self.args, "algorithm", "FACMAC") == "IDDPG" or getattr(self.args, "algorithm", "FACMAC") == "FAC" or getattr(self.args,"algorithm","FACMAC") == "FACMAC_SCH":
                 pi = self.policy.actor_network(inputs)["actions"].squeeze(0)
 

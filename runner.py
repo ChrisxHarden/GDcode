@@ -9,6 +9,10 @@ import matplotlib.pyplot as plt
 
 
 class Runner:
+    # Runner is used to execute the training process for no-temporal message fusion algorithms.
+    # Potentially, we can merge Runner with the LSTM Runner
+    
+    
     def __init__(self, args, env):
         self.args = args
         self.noise = args.noise_rate
@@ -40,10 +44,14 @@ class Runner:
             actions = []
             with torch.no_grad():
                 if not self.args.share_agent:
+                    #This is to let the agents' actor network not sharing the parameters, can be used for ablation study
+                    
                     for agent_id, agent in enumerate(self.agents):
                         action = agent.select_action(s[agent_id], self.noise, self.epsilon)
                         u.append(action)
                         actions.append(action)
+                
+                
                 else:
                     for agent_id in range(self.args.n_agents):
                         action=self.agents[0].select_action(s[agent_id],self.noise,self.epsilon)
