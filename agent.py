@@ -34,7 +34,6 @@ class Agent:
         device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
         if np.random.uniform() < epsilon:
             # epsilon-greedy solution, my personal thought is that's not enough.
-            #u = np.random.uniform(-self.args.high_action, self.args.high_action, self.args.action_shape[self.agent_id])
             u=torch.rand(self.args.action_shape[self.agent_id],device=device)
             u=2*self.args.high_action*u-self.args.high_action
 
@@ -48,21 +47,9 @@ class Agent:
             else:
                 u = self.policy.actor_network(inputs).squeeze(0)
 
-            
-            
-
-            # u = pi.cpu().numpy()
-
-            # noise = noise_rate * self.args.high_action * np.random.randn(*u.shape)  # gaussian noise
             noise = noise_rate*self.args.high_action * torch.randn(*u.shape,device=device)
             u += noise
-            # u = np.clip(u, -self.args.high_action, self.args.high_action)
 
-
-        # u_cal=torch.tensor(u.copy(),device=device)
-
-
-        # return u_cal
         return u
 
     def learn(self, transitions, other_agents):
