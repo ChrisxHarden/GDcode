@@ -1,0 +1,8 @@
+tqdm
+torch
+torchvision
+torchaudio
+matplotlib
+pyglet==1.5.11
+piglet
+freeglut3-dev
