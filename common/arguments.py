@@ -11,6 +11,7 @@ def get_args():
     # Environment
     parser.add_argument("--scenario-name", type=str, default="simple_tag", help="name of the scenario script")
     parser.add_argument("--max-episode-len", type=int, default=100, help="maximum episode length")#Maybe we can change it here
+    parser.add_argument("--exploration-steps",type=int,default=100000,help="letting the agents move stochastically to have some experience")
     parser.add_argument("--time-steps", type=int, default=2000000, help="number of time steps")
     # 一个地图最多env.n个agents，用户可以定义min(env.n,num-adversaries)个敌人
     parser.add_argument("--num-adversaries", type=int, default=1, help="number of adversaries")
@@ -40,7 +41,7 @@ def get_args():
     parser.add_argument("--gamma", type=float, default=0.95, help="discount factor")
     parser.add_argument("--tau", type=float, default=0.001, help="parameter for updating the target network")#衡量target_network的更新幅度,越大则更倾向于改变?为什么这么做?
     parser.add_argument("--buffer-size", type=int, default=int(5e5), help="number of transitions can be stored in buffer")
-    parser.add_argument("--batch-size", type=int, default=4096, help="number of episodes to optimize at the same time")
+    parser.add_argument("--batch-size", type=int, default=16, help="number of episodes to optimize at the same time")
     parser.add_argument("--lstm", type=bool, default=False, help="enable lstm?")
     parser.add_argument("--seq-length", type=int, default=5, help="length of lstm input slice")
 

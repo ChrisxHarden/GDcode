@@ -57,23 +57,47 @@ class Runner:
                         action=self.agents[0].select_action(s[agent_id],self.noise,self.epsilon)
                         u.append(action)
                         actions.append(action)
+            
             for i in range(self.args.n_agents, self.args.n_players):
-                actions.append([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0])
+                actions.append([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0])# for the adversial 
+            
+            
             s_next, r, done, info = self.env.step(actions)
+            
             self.buffer.store_episode(s[:self.args.n_agents], u, r[:self.args.n_agents], s_next[:self.args.n_agents])
             s = s_next
-            if self.buffer.current_size >= self.args.batch_size:
+            
+            if self.buffer.current_size >= self.args.exploration_steps:
+                # start_time=time.time()
                 transitions = self.buffer.sample(self.args.batch_size)
+                # end_time=time.time()
+                # buffer_sample_time=end_time-start_time
+                
+                # with open("time_cosumption.txt","+a") as file:
+                #     file.write("buffer sample time per step\n")
+                #     file.write(str(buffer_sample_time))
+                #     file.write("\n")
 
+                
+                start_time=time.time()
                 if not self.args.share_agent:
+                    
                     for agent in self.agents:
                         other_agents = self.agents.copy()
                         other_agents.remove(agent)
+                        
                         agent.learn(transitions, other_agents)
                 else:
                     other_agents = self.agents.copy()
                     other_agents.remove(self.agents[0])
                     self.agents[0].learn(transitions, other_agents)
+                # end_time=time.time()
+                
+                # execution_time=end_time-start_time
+                # with open("time_cosumption.txt","+a") as file:
+                #     file.write("training time per step\n")
+                #     file.write(str(execution_time))
+                #     file.write("\n")
 
             if time_step > 0 and time_step % self.args.evaluate_rate == 0:
                 return_for_this_round=self.evaluate()
