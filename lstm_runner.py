@@ -40,7 +40,7 @@ class Lstm_Runner:
         device = self.device
 
 
-        for time_step in tqdm(range(self.args.time_steps)):
+        for time_step in tqdm(range(self.args.time_steps+self.args.exploration_steps)):
             # reset the environment
             if time_step % self.episode_limit == 0:
                 s = self.env.reset()
@@ -93,7 +93,7 @@ class Lstm_Runner:
 
 
 
-            if self.buffer.current_size >= self.args.batch_size+self.args.seq_length:
+            if self.buffer.current_size >= self.args.exploration_steps:
                 transitions = self.buffer.seq_sample(self.args.batch_size,self.args.seq_length)
                 if not self.args.share_agent:
                     for agent in self.agents:
