@@ -20,7 +20,7 @@ class Agent:
             "FACMAC":{"policy":FACMAC(args,agent_id),"sep_action":True},
             "MADDPG":{"policy":MADDPG(args,agent_id),"sep_action":False},
             "IDDPG":{"policy":IDDPG(args,agent_id),"sep_action":True},
-            "MADDPGLSTMactor":{"policy":MADDPG_lstm_actor(agent_id),"sep_action":False},
+            "MADDPGLSTMactor":{"policy":MADDPG_lstm_actor(args,agent_id),"sep_action":False},
             "FAC":{"policy":FAC(args,agent_id),"sep_action":True},
             "FACMAC_SCH":{"policy":FACMACSCH(args,agent_id),"sep_action":True},
             "MADDPGLSTM":{"policy":MADDPGLSTM(args,agent_id), "sep_action":False},           
