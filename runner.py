@@ -22,8 +22,11 @@ class Runner:
         self.agents = self._init_agents()
         self.buffer = Buffer(args)
         self.save_path = self.args.save_dir + '/' + self.args.scenario_name+'/share_param='+str(self.args.share_param)
+        self.result_path=self.save_path + '/'+self.args.algorithm+'/'+self.args.run_id
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
+        if not os.path.exists(self.result_path):
+            os.makedirs(self.result_path)
 
     def _init_agents(self):
         agents = []
@@ -107,10 +110,10 @@ class Runner:
                 plt.plot(range(len(returns)), returns)
                 plt.xlabel('episode * ' + str(self.args.evaluate_rate / self.episode_limit))
                 plt.ylabel('average returns')
-                plt.savefig(self.save_path + '/'+self.args.algorithm+'/'+self.args.run_id+'/plt.png', format='png')
+                plt.savefig(self.result_path+'/plt.png', format='png')
                 self.noise = max(0.05, self.noise - 0.0000005)
                 self.epsilon = max(0.05, self.epsilon - 0.0000005)
-                np.save(self.save_path + '/'+self.args.algorithm+'/'+self.args.run_id+ '/returns.pkl', returns)
+                np.save(self.result_path+ '/returns.pkl', returns)
 
     def evaluate(self):
         returns = []
