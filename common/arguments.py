@@ -13,7 +13,7 @@ def get_args():
     parser.add_argument("--max-episode-len", type=int, default=100, help="maximum episode length")#Maybe we can change it here
     parser.add_argument("--exploration-steps",type=int,default=100000,help="letting the agents move stochastically to have some experience")
     parser.add_argument("--time-steps", type=int, default=2000000, help="number of time steps")
-    parser.add_argument("run-id",type=str,default="id",help="identify the run results")
+    parser.add_argument("id",type=str,default="id",help="identify the run results")
     
     
     # 一个地图最多env.n个agents，用户可以定义min(env.n,num-adversaries)个敌人
