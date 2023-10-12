@@ -114,10 +114,10 @@ class Lstm_Runner:
                 plt.plot(range(len(returns)), returns)
                 plt.xlabel('episode * ' + str(self.args.evaluate_rate / self.episode_limit))
                 plt.ylabel('average returns')
-                plt.savefig(self.save_path + '/'+self.args.algorithm+'/plt.png', format='png')
+                plt.savefig(self.save_path + '/'+self.args.algorithm+'/'+self.args.run_id+'/plt.png', format='png')
                 self.noise = max(0.05, self.noise - 0.0000005)
                 self.epsilon = max(0.05, self.epsilon - 0.0000005)
-                np.save(self.save_path + '/'+self.args.algorithm+ '/returns.pkl', returns)
+                np.save(self.save_path + '/'+self.args.algorithm+ '/'+self.args.run_id+'/returns.pkl', returns)
 
     def evaluate(self):
         returns = []

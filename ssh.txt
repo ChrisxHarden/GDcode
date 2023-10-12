@@ -1,2 +1,4 @@
 ssh amdserver@10.5.22.188
 password:office.dlut!!!
+
+export DISPLAY=:0 

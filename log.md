@@ -23,7 +23,14 @@
 
 
 
-
+## Oct 10th:
+### Done:
+1. Get the environment ready
+### Todo:
+1. Training task:
+   1. simple-tag:MADDPG,MADDPG-LSTM,FAC,IDDPG
+   2. simple-spread:MADDPG,MADDPG-LSTM,FAC,IDDPG
+   3. simple-spread-6a:MADDPG,MADDPG-LSTM,FAC,IDDPG
 
 ## Oct 9th:
 ### Done:
