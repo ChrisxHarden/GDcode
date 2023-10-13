@@ -20,6 +20,7 @@ class Runner:
         self.episode_limit = args.max_episode_len
         self.env = env
         self.agents = self._init_agents()
+        self.device=torch.device('cuda' if torch.cuda.is_available else 'cpu')
         self.buffer = Buffer(args)
         self.save_path = self.args.save_dir + '/' + self.args.scenario_name+'/share_param='+str(self.args.share_param)
         self.result_path=self.save_path + '/'+self.args.algorithm+'/'+self.args.run_id
@@ -62,11 +63,10 @@ class Runner:
                         actions.append(action)
             
             for i in range(self.args.n_agents, self.args.n_players):
-                actions.append([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0])# for the adversial 
+                actions.append(torch.tensor([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0],device=self.device))# for the adversial 
             
             
             s_next, r, done, info = self.env.step(actions)
-            
             self.buffer.store_episode(s[:self.args.n_agents], u, r[:self.args.n_agents], s_next[:self.args.n_agents])
             s = s_next
             

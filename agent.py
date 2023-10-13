@@ -5,7 +5,6 @@ from algorithms.facmac import FACMAClearner as FACMAC
 from algorithms.maddpg import MADDPG
 from algorithms.iddpg import IDDPG
 from algorithms.MADDPG_lstm_agent import MADDPG_lstm_actor
-from algorithms.FACMAC_lstm_agent import FACMAC_lstm_actor
 from algorithms.test_fac import FAC
 from algorithms.FACMAC_SCH import FACMACSCH
 from algorithms.FACLSTM import FACLSTM
@@ -15,19 +14,21 @@ class Agent:
     def __init__(self, agent_id, args):
         self.args = args
         self.agent_id = agent_id
-        policy_name=getattr(self.args,"algorithms","MADDPG")
+        policy_name=getattr(self.args,"algorithm","MADDPG")
         self.policy_class={
-            "FACMAC":{"policy":FACMAC(args,agent_id),"sep_action":True},
-            "MADDPG":{"policy":MADDPG(args,agent_id),"sep_action":False},
-            "IDDPG":{"policy":IDDPG(args,agent_id),"sep_action":True},
-            "MADDPGLSTMactor":{"policy":MADDPG_lstm_actor(args,agent_id),"sep_action":False},
-            "FAC":{"policy":FAC(args,agent_id),"sep_action":True},
-            "FACMAC_SCH":{"policy":FACMACSCH(args,agent_id),"sep_action":True},
-            "MADDPGLSTM":{"policy":MADDPGLSTM(args,agent_id), "sep_action":False},           
+            "FACMAC":{"policy":FACMAC(args,agent_id),"sep_action":True,"time_series":False},
+            "MADDPG":{"policy":MADDPG(args,agent_id),"sep_action":False,"time_series":False},
+            "IDDPG":{"policy":IDDPG(args,agent_id),"sep_action":True,"time_series":False},
+            "MADDPGLSTMactor":{"policy":MADDPG_lstm_actor(args,agent_id),"sep_action":False,"time_series":True},
+            "FAC":{"policy":FAC(args,agent_id),"sep_action":True,"time_series":False},
+            "FACMAC_SCH":{"policy":FACMACSCH(args,agent_id),"sep_action":True,"time_series":False},
+            "MADDPGLSTM":{"policy":MADDPGLSTM(args,agent_id), "sep_action":False,"time_series":True},           
         }
         
         self.policy=self.policy_class[policy_name]["policy"]
         self.sep_action=self.policy_class[policy_name]["sep_action"]
+        self.time_series=self.policy_class[policy_name]["time_series"]
+
         
 
     def select_action(self, o, noise_rate, epsilon):
@@ -49,7 +50,7 @@ class Agent:
 
             noise = noise_rate*self.args.high_action * torch.randn(*u.shape,device=device)
             u += noise
-
+        
         return u
 
     def learn(self, transitions, other_agents):

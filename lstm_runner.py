@@ -72,23 +72,22 @@ class Lstm_Runner:
                         else:
 
                             action = agent.select_action(self.temp_buffer['o_%d' % agent_id][:buffer_count+1], self.noise, self.epsilon)
-
                         u.append(action)
                         actions.append(action)
                 else:
                     for agent_id, agent in enumerate(self.agents):
                         if time_step % self.episode_limit == 0:
                             action = self.agents[0].select_action(s_init[agent_id], self.noise, self.epsilon)
-
                         else:
 
                             action = self.agents[0].select_action(self.temp_buffer['o_%d' % agent_id][:buffer_count + 1],self.noise, self.epsilon)
-
                         u.append(action)
                         actions.append(action)
             for i in range(self.args.n_agents, self.args.n_players):
-                actions.append([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0])
+                actions.append(torch.tensor([0, np.random.rand() * 2 - 1, 0, np.random.rand() * 2 - 1, 0],device=self.device))
+                
             s_next, r, done, info = self.env.step(actions)
+            
 
             self.buffer.store_episode(s[:self.args.n_agents], u, r[:self.args.n_agents], s_next[:self.args.n_agents])
             self.temp_buffer_store(self.temp_buffer,s[:self.args.n_agents], u, r[:self.args.n_agents], s_next[:self.args.n_agents],idx=buffer_count,limit=temp_buffer_limit)
@@ -178,7 +177,6 @@ class Lstm_Runner:
                 s = s_next
                 buffer_count = min(buffer_count + 1, temp_buffer_limit)
             returns.append(rewards)
-            print('Returns is', rewards)
         return sum(returns) / self.args.evaluate_episodes
 
     def temp_buffer_store(self, temp_buffer,o, u, r, o_next,idx,limit):
