@@ -155,7 +155,7 @@ class FAC:
 
                         index += 1
                 q_next = torch.stack(q_next, dim=-1)
-                q_next = torch.stack(q_next, dim=-1)
+                # q_next = torch.stack(q_next, dim=-1)
             else:
 
 
