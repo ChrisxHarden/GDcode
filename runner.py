@@ -102,7 +102,7 @@ class Runner:
                 #     file.write(str(execution_time))
                 #     file.write("\n")
 
-            if time_step > 0 and time_step % self.args.evaluate_rate == 0:
+            if time_step > self.args.exploration_steps and time_step % self.args.evaluate_rate == 0:
                 return_for_this_round=self.evaluate()
                 print("Avg_return for this round is",return_for_this_round)
                 returns.append(return_for_this_round)
