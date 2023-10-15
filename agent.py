@@ -9,6 +9,7 @@ from algorithms.test_fac import FAC
 from algorithms.FACMAC_SCH import FACMACSCH
 from algorithms.FACLSTM import FACLSTM
 from algorithms.MADDPGLSTM import MADDPG_lstm as MADDPGLSTM
+from algorithms.MADDPG_Trans import MADDPGTrans as MADDPGTrans
 
 class Agent:
     def __init__(self, agent_id, args):
@@ -23,6 +24,7 @@ class Agent:
             "FAC":{"policy":FAC(args,agent_id),"sep_action":True,"time_series":False},
             "FACMAC_SCH":{"policy":FACMACSCH(args,agent_id),"sep_action":True,"time_series":False},
             "MADDPGLSTM":{"policy":MADDPGLSTM(args,agent_id), "sep_action":False,"time_series":True},           
+            "MADDPGTrans":{"policy":MADDPGTrans(args,agent_id), "sep_action":False,"time_series":True},           
         }
         
         self.policy=self.policy_class[policy_name]["policy"]

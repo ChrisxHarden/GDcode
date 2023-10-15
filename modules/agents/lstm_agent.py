@@ -25,11 +25,6 @@ class Actor(nn.Module):
         #     self.h=a[0]
         #     self.c=a[1]
         seq,a=self.lstm(x)
-
-
-
-
-
         x = F.relu(self.fc1(seq))
         x = F.relu(self.fc2(x))
         #x = F.relu(self.fc3(x))
