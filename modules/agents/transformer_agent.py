@@ -16,7 +16,7 @@ class Actor(nn.Module):
         self.embedding=nn.Linear(args.obs_shape[agent_id],args.obs_shape[agent_id])
         self.transformer = nn.Transformer(
             d_model=args.obs_shape[agent_id],
-            nhead=8,
+            nhead=1,
             num_encoder_layers=6,
             dim_feedforward=512,
             dropout=0.1,
